@@ -1,11 +1,16 @@
 package com.honor.springsecurity.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.honor.springsecurity.dao.MyUserDetailsServiceMapper;
+import com.honor.springsecurity.exception.AjaxResponse;
+import com.honor.springsecurity.exception.CustomException;
+import com.honor.springsecurity.exception.CustomExceptionType;
 import com.honor.springsecurity.model.MyUserDetails;
 import es.moki.ratelimitj.core.limiter.request.RequestLimitRule;
 import es.moki.ratelimitj.core.limiter.request.RequestRateLimiter;
 import es.moki.ratelimitj.redis.request.RedisRateLimiterFactory;
 import io.lettuce.core.RedisClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
@@ -23,6 +28,11 @@ import java.util.Set;
 
 @Component
 public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+
+    @Value("${spring.security.logintype}")
+    private String loginType;
+
+    private  static ObjectMapper objectMapper = new ObjectMapper();
 
     @Resource
     MyUserDetailsServiceMapper myUserDetailsServiceMapper;
@@ -69,6 +79,17 @@ public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailu
 
         System.out.println(errorMsg);
 
-        super.onAuthenticationFailure(request, response, exception);
+        if (loginType.equalsIgnoreCase("JSON")) {
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write(
+                    objectMapper.writeValueAsString(
+                            AjaxResponse.error(
+                                    new CustomException(
+                                            CustomExceptionType.USER_INPUT_ERROR,
+                                            errorMsg))));
+        } else {
+            response.setContentType("text/html;charset=UTF-8");
+            super.onAuthenticationFailure(request, response, exception);
+        }
     }
 }
