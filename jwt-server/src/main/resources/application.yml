@@ -18,3 +18,7 @@ spring:
     database: 0
     host: 127.0.0.1
     port: 6379
+jwt:
+  header:
+  secret: aabbccddJWTHeaderName
+  expiration: 3600000
