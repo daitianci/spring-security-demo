@@ -10,6 +10,7 @@
     <modules>
         <module>spring-security-common</module>
         <module>base-server</module>
+        <module>jwt-server</module>
     </modules>
 
     <name>spring-security-demo</name>
