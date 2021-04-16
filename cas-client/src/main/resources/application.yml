@@ -1,0 +1,37 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: cas-client
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    name: defaultDataSource
+    url: jdbc:mysql://localhost:3306/testdb?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+  freemarker:
+    cache: false
+    charset: utf-8
+    expose-request-attributes: true
+    expose-session-attributes: true
+    suffix: .html
+    template-loader-path: classpath:/templates/
+    #这个需要注释掉，否则登录页面会导航报错
+  resources:
+    # 应用服务 WEB 访问端口
+    static-locations: classpath:/static/
+  security:
+    logintype: HTML
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+cas:
+  server:
+    baseurl: http://localhost:8443/cas
+    loginurl: /login
+    logouturl: /logout
+  client:
+    baseurl: http://localhost:9001
+    loginurl: /login/cas
+    logouturl: /logout/cas
