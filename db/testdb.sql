@@ -11,7 +11,7 @@
  Target Server Version : 50718
  File Encoding         : 65001
 
- Date: 15/04/2021 17:18:53
+ Date: 17/04/2021 10:01:31
 */
 
 SET NAMES utf8mb4;
@@ -528,7 +528,7 @@ CREATE TABLE `sys_user`  (
 INSERT INTO `sys_user` VALUES (1297873308628307970, 'admin', '$2a$10$/yOSnA2NwMh4UwXK5K8gnOUI37y.Jl.eAwnXrfML6SXoTRwWThvN6', 1, 1, 1, '13214456784', 'hahaha1@163.com', '', '2020-10-06 10:32:22', 'admin', '2021-04-15 11:16:49');
 INSERT INTO `sys_user` VALUES (1298090120930418690, 'yanfa1', '$2a$10$.Bj/zLMXc5RXzHadk2mbguHdHWdhSUSleDRhcf./SdxhlJyuYbvOe', 1, 1, 1, '13245678901', '', '', '2020-08-24 21:49:12', '', '2021-04-15 10:24:11');
 INSERT INTO `sys_user` VALUES (1312546457345118209, 'nav', '$2a$10$dqFkbqOddDBGe28NqTb.NOkAOt64NJMEHxCZpxyn.LzNtoIu9S5P2', 1298067674592456706, 1, 1, '13214456789', '', '', '2020-10-03 19:13:56', '', '2021-04-15 10:24:12');
-INSERT INTO `sys_user` VALUES (1353244456323207169, 'ccaa1', '$2a$10$A0OIoLpe6y5j76b1HdhZLONXZAc4uFjatP0EJvYuu2dvFTin8vrCu', 1298067029349117953, 1, 1, '13215556666', '', 'admin', '2021-01-24 01:33:15', 'admin', '2021-04-15 10:24:13');
+INSERT INTO `sys_user` VALUES (1353244456323207169, 'client1', '$2a$10$S/aqKxoHKhpkJVU72QyY8OwqAHeqCknP7XuxTE/0ZeVzzpylCguCa', 1298067029349117953, 1, 1, '13215556666', '', 'admin', '2021-01-24 01:33:15', 'admin', '2021-04-17 10:00:32');
 
 -- ----------------------------
 -- Table structure for sys_user_role
