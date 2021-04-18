@@ -1,7 +1,9 @@
 package com.honor.springsecurity.config;
 
 import com.honor.springsecurity.service.MyUserDetailsService;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -9,8 +11,12 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.annotation.Resource;
+import javax.sql.DataSource;
 
 /**
  * OAuth2AuthorizationServer
@@ -31,6 +37,29 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
     @Resource
     private AuthenticationManager authenticationManager;
 
+    //****************************配置token存储机制开始***************************
+    //资源服务器与认证服务器使用同一个tokenStore、同一个数据源保存Token数据，这样才能在认证和校验过程中做到Token的共享
+
+    // @Resource
+    // private DataSource dataSource;
+    //
+    // @Bean
+    // public TokenStore tokenStore() {
+    //     return new JdbcTokenStore(dataSource);
+    // }
+
+    @Resource
+    private RedisConnectionFactory connectionFactory;
+
+    @Bean
+    public TokenStore tokenStore() {
+        RedisTokenStore redis = new RedisTokenStore(connectionFactory);
+        return redis;
+    }
+
+    //****************************配置token存储机制结束***************************
+
+
     //这个位置我们将Client客户端注册信息写死，后面章节我们会讲解动态实现
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -46,7 +75,8 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.authenticationManager(authenticationManager)
+        endpoints.tokenStore(tokenStore())
+                .authenticationManager(authenticationManager)
                 .userDetailsService(myUserDetailsService);
     }
 
@@ -54,7 +84,7 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
         oauthServer
                 .tokenKeyAccess("permitAll()")
-                .checkTokenAccess("permitAll()")
+                .checkTokenAccess("isAuthenticated()")
                 .allowFormAuthenticationForClients();
     }
 

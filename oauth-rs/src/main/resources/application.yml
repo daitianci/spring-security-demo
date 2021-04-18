@@ -1,8 +1,8 @@
 server:
-  port: 8001
+  port: 8002
 spring:
   application:
-    name: oauth-as
+    name: oauth-rs
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     name: defaultDataSource

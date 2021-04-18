@@ -13,6 +13,7 @@
         <module>jwt-server</module>
         <module>cas-client</module>
         <module>oauth-as</module>
+        <module>oauth-rs</module>
     </modules>
 
     <name>spring-security-demo</name>
