@@ -1,5 +1,6 @@
 package com.honor.springsecurity.controller;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
@@ -24,6 +25,9 @@ public class HelloController {
 
     @RequestMapping("/hello")
     public String hello(OAuth2Authentication authentication) {
+        //获取登录用户信息
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         Map<String, Object> map = getExtraInfo(authentication);
         return "Hello Oauth2 Resource Server";
     }
