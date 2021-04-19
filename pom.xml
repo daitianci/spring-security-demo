@@ -15,6 +15,7 @@
         <module>oauth-as</module>
         <module>oauth-rs</module>
         <module>oauth-jwt-as</module>
+        <module>oauth-jwt-rs</module>
     </modules>
 
     <name>spring-security-demo</name>
